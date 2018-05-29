@@ -1,11 +1,18 @@
 require 'sinatra'
+require 'sinatra/param'
 require 'csv'
 
 set :port, 8081
 set :bind, '0.0.0.0'
 
-get '/lines' do
+before do
   content_type :json
+end
+
+get '/lines' do
+  param :timestamp, String, required: true
+  param :x, Integer, required: true
+  param :y, Integer, required: true
 
   lines = CSV.read('data/lines.csv', :headers => true)
 
