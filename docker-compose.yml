@@ -1,0 +1,9 @@
+version: '3'
+services:
+  web-app:
+    build: .
+    command: ruby app.rb
+    ports:
+      - "8081:8081"
+    networks:
+      - default

@@ -1,0 +1,6 @@
+version: '3'
+services:
+  web-app:
+    command: sh -c "while sleep 1; do :; done"
+    volumes:
+      - ".:/usr/src/app"
