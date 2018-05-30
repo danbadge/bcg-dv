@@ -1,6 +1,5 @@
 require 'sinatra'
 require 'sinatra/param'
-require 'csv'
 require './lib/lines_service.rb'
 
 set :port, 8081
