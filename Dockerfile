@@ -5,8 +5,9 @@ RUN apk update && apk upgrade && \
 
 WORKDIR /usr/src/app
 
-ADD . /usr/src/app
-
+ADD Gemfile Gemfile.lock /usr/src/app/
 RUN bundle install
+
+ADD . /usr/src/app
 
 CMD ruby app.rb
