@@ -4,6 +4,19 @@ require 'csv'
 
 set :port, 8081
 set :bind, '0.0.0.0'
+set :raise_sinatra_param_exceptions, true
+
+error Sinatra::Param::InvalidParameterError do
+  status 400
+
+  message = env['sinatra.error'].message
+
+  if message.include?('Parameter is required')
+    return {:error => "Parameter '#{env['sinatra.error'].param}' is required"}.to_json
+  end
+
+  {:error => "#{message} for parameter '#{env['sinatra.error'].param}'"}.to_json
+end
 
 before do
   content_type :json
@@ -75,6 +88,6 @@ def could_not_find_line_response(line_name)
   status 404
 
   {
-    :error => "The line \"#{line_name}\" could not be found",
+    :error => "The line '#{line_name}' could not be found",
   }.to_json
 end

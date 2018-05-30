@@ -55,7 +55,7 @@ describe '~/lines/:name' do
 
     it 'returns a helpful JSON error message' do
       expected = {
-        'error' => 'The line "this-is-not-a-line" could not be found',
+        'error' => "The line 'this-is-not-a-line' could not be found",
       }
       expect(parsed_response_body).to eq(expected)
     end

@@ -99,8 +99,7 @@ describe '~/lines' do
 
       it 'returns a helpful JSON error message' do
         expected = {
-          'errors' => {'timestamp' => 'Parameter is required'},
-          'message' => 'Parameter is required',
+          'error' => "Parameter 'timestamp' is required"
         }
         expect(parsed_response_body).to eq(expected)
       end
@@ -114,7 +113,7 @@ describe '~/lines' do
       end
 
       it 'returns a helpful JSON error message' do
-        expect(parsed_response_body['errors']).to eq('x' => 'Parameter is required')
+        expect(parsed_response_body['error']).to eq("Parameter 'x' is required")
       end
     end
 
@@ -126,7 +125,7 @@ describe '~/lines' do
       end
 
       it 'returns a helpful JSON error message' do
-        expect(parsed_response_body['errors']).to eq('x' => "'hello x' is not a valid Integer")
+        expect(parsed_response_body['error']).to eq("'hello x' is not a valid Integer for parameter 'x'")
       end
     end
 
@@ -138,7 +137,7 @@ describe '~/lines' do
       end
 
       it 'returns a helpful JSON error message' do
-        expect(parsed_response_body['errors']).to eq('y' => 'Parameter is required')
+        expect(parsed_response_body['error']).to eq("Parameter 'y' is required")
       end
     end
 
@@ -150,7 +149,7 @@ describe '~/lines' do
       end
 
       it 'returns a helpful JSON error message' do
-        expect(parsed_response_body['errors']).to eq('y' => "'hello y' is not a valid Integer")
+        expect(parsed_response_body['error']).to eq("'hello y' is not a valid Integer for parameter 'y'")
       end
     end
   end
