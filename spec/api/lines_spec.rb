@@ -18,9 +18,9 @@ describe '~/lines' do
 
     it 'returns a helpful JSON error message' do
       parsed_body = JSON.parse(last_response.body)
-      expected = { 
-        'errors' => { 'timestamp' => 'Parameter is required' },
-        'message' => 'Parameter is required'
+      expected = {
+        'errors' => {'timestamp' => 'Parameter is required'},
+        'message' => 'Parameter is required',
       }
       expect(parsed_body).to eq(expected)
     end
@@ -36,12 +36,12 @@ describe '~/lines' do
 
       it 'returns a helpful JSON error message' do
         parsed_body = JSON.parse(last_response.body)
-        expect(parsed_body['errors']).to eq({ 'x' => 'Parameter is required' })
+        expect(parsed_body['errors']).to eq('x' => 'Parameter is required')
       end
     end
 
     context 'when the x coordinate is a string' do
-      let(:x_coordinate) { "hello x" }
+      let(:x_coordinate) { 'hello x' }
 
       it 'returns 400 bad request' do
         expect(last_response.status).to eq(400)
@@ -49,7 +49,7 @@ describe '~/lines' do
 
       it 'returns a helpful JSON error message' do
         parsed_body = JSON.parse(last_response.body)
-        expect(parsed_body['errors']).to eq({ 'x' =>  "'hello x' is not a valid Integer" })
+        expect(parsed_body['errors']).to eq('x' => "'hello x' is not a valid Integer")
       end
     end
   end
@@ -64,12 +64,12 @@ describe '~/lines' do
 
       it 'returns a helpful JSON error message' do
         parsed_body = JSON.parse(last_response.body)
-        expect(parsed_body['errors']).to eq({ 'y' => 'Parameter is required' })
+        expect(parsed_body['errors']).to eq('y' => 'Parameter is required')
       end
     end
 
     context 'when the y coordinate is a string' do
-      let(:y_coordinate) { "hello y" }
+      let(:y_coordinate) { 'hello y' }
 
       it 'returns 400 bad request' do
         expect(last_response.status).to eq(400)
@@ -77,7 +77,7 @@ describe '~/lines' do
 
       it 'returns a helpful JSON error message' do
         parsed_body = JSON.parse(last_response.body)
-        expect(parsed_body['errors']).to eq({ 'y' => "'hello y' is not a valid Integer" })
+        expect(parsed_body['errors']).to eq('y' => "'hello y' is not a valid Integer")
       end
     end
   end
@@ -90,9 +90,9 @@ describe '~/lines' do
     it 'returns all possible lines' do
       parsed_body = JSON.parse(last_response.body)
       expected = [
-        { 'id' => '0', 'name' => 'M4' },
-        { 'id' => '1', 'name' => '200' },
-        { 'id' => '2', 'name' => 'S75' }
+        {'id' => '0', 'name' => 'M4'},
+        {'id' => '1', 'name' => '200'},
+        {'id' => '2', 'name' => 'S75'},
       ]
       expect(parsed_body).to eq(expected)
     end

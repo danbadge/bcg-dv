@@ -10,18 +10,18 @@ before do
 end
 
 get '/lines' do
-  param :timestamp, String, required: true
-  param :x, Integer, required: true
-  param :y, Integer, required: true
+  param :timestamp, String, :required => true
+  param :x, Integer, :required => true
+  param :y, Integer, :required => true
 
   lines = CSV.read('data/lines.csv', :headers => true)
 
-  body = lines.map do |l| 
+  body = lines.map { |l|
     {
       'id' => l['line_id'],
       'name' => l['line_name'],
     }
-  end
+  }
 
   body.to_json
 end
