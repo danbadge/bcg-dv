@@ -28,6 +28,21 @@ get '/lines' do
   lines_at_position_and_time.to_json
 end
 
+get '/lines/:name' do
+  lines = CSV.read('data/delays.csv', :headers => true)
+
+  name = params[:name]
+
+  delayed_line = lines.find { |line| line['line_name'] == name }
+
+  return could_not_find_line_response(name) if delayed_line.nil?
+
+  {
+    :name => delayed_line['line_name'],
+    :delay_in_minutes => delayed_line['delay'],
+  }.to_json
+end
+
 def stop_ids_at_position(x, y)
   stops = CSV.read('data/stops.csv', :headers => true)
 
@@ -54,4 +69,12 @@ def lines_in(line_ids)
   all_lines = CSV.read('data/lines.csv', :headers => true)
 
   all_lines.select { |line| line_ids.include?(line['line_id']) }
+end
+
+def could_not_find_line_response(line_name)
+  status 404
+
+  {
+    :error => "The line \"#{line_name}\" could not be found",
+  }.to_json
 end
