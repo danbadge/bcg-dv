@@ -14,30 +14,21 @@ get '/lines' do
   param :x, Integer, :required => true
   param :y, Integer, :required => true
 
-  nearby_stop_ids = stop_ids_at_coodinates(params[:x], params[:y])
+  stop_ids = stop_ids_at_position(params[:x], params[:y])
 
-  stop_times = CSV.read('data/stop_times.csv', :headers => true)
-  stops_at_time_and_coordinates = stop_times.select { |times|
-    nearby_stop_ids.include?(times['stop_id']) && times['time'] == params[:timestamp]
-  }
+  line_ids = line_ids_at_stops_and_time(stop_ids, params[:timestamp])
 
-  line_ids = stops_at_time_and_coordinates.map { |times| times['line_id'] }
-
-  all_lines = CSV.read('data/lines.csv', :headers => true)
-
-  lines = all_lines.select { |line| line_ids.include?(line['line_id']) }
-
-  body = lines.map { |line|
+  lines_at_position_and_time = lines_in(line_ids).map { |line|
     {
       :id => line['line_id'],
       :name => line['line_name'],
     }
   }
 
-  body.to_json
+  lines_at_position_and_time.to_json
 end
 
-def stop_ids_at_coodinates(x, y)
+def stop_ids_at_position(x, y)
   stops = CSV.read('data/stops.csv', :headers => true)
 
   nearby_stops = stops.select { |stop|
@@ -47,4 +38,20 @@ def stop_ids_at_coodinates(x, y)
   nearby_stops.map { |stop|
     stop['stop_id']
   }
+end
+
+def line_ids_at_stops_and_time(stop_ids, timestamp)
+  stop_times = CSV.read('data/stop_times.csv', :headers => true)
+
+  stops_at_time_with_id = stop_times.select { |times|
+    stop_ids.include?(times['stop_id']) && times['time'] == timestamp
+  }
+
+  stops_at_time_with_id.map { |times| times['line_id'] }
+end
+
+def lines_in(line_ids)
+  all_lines = CSV.read('data/lines.csv', :headers => true)
+
+  all_lines.select { |line| line_ids.include?(line['line_id']) }
 end
