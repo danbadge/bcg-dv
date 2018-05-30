@@ -5,6 +5,7 @@ require 'csv'
 set :port, 8081
 set :bind, '0.0.0.0'
 set :raise_sinatra_param_exceptions, true
+set :show_exceptions, false
 
 error Sinatra::Param::InvalidParameterError do
   status 400
@@ -46,7 +47,7 @@ get '/lines/:name' do
 
   name = params[:name]
 
-  delayed_line = lines.find { |line| line['line_name'] == name }
+  delayed_line = lines.find { |line| line['line_name'] == name.upcase }
 
   return could_not_find_line_response(name) if delayed_line.nil?
 

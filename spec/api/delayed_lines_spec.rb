@@ -46,6 +46,18 @@ describe '~/lines/:name' do
     end
   end
 
+  context 'when requesting line m4 (lowercase)' do
+    let(:name) { 'M4' }
+
+    it 'returns a delay of 1 minute' do
+      expected = {
+        'name' => 'M4',
+        'delay_in_minutes' => '1',
+      }
+      expect(parsed_response_body).to eq(expected)
+    end
+  end
+
   context 'when the name is unknown' do
     let(:name) { 'this-is-not-a-line' }
 
