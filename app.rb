@@ -31,11 +31,11 @@ end
 def stop_ids_at_position(x, y)
   stops = CSV.read('data/stops.csv', :headers => true)
 
-  nearby_stops = stops.select { |stop|
+  stops_at_position = stops.select { |stop|
     stop['x'] == x.to_s && stop['y'] == y.to_s
   }
 
-  nearby_stops.map { |stop|
+  stops_at_position.map { |stop|
     stop['stop_id']
   }
 end
